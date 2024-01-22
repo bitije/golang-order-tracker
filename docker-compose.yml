@@ -1,0 +1,26 @@
+version: '3.1'
+
+services:
+
+  db:
+    container_name: pg-db
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: example
+      POSTGRES_USER: postgres
+    ports:
+      - "5432:5432"
+    command: >
+      bash -c "docker-entrypoint.sh postgres & sleep 10 && \
+      psql -U postgres -c 'CREATE DATABASE gopg;' && \
+      wait"
+
+  nats-streaming:
+    container_name: nats-streaming
+    image: nats-streaming
+    restart: always
+    ports:
+      - "4223:4223"
+      - "8223:8223"
+    command: "-p 4223 -m 8223"
