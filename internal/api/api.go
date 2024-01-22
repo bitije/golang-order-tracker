@@ -39,7 +39,7 @@ func handleResponse(data string) []byte {
 			log.Printf("Error marshalling order: %v", err)
 			return []byte("An error occurred.")
 		}
-		log.Printf("Get order from cache: %v", orderJSON)
+		log.Printf("Got order %v from CACHE", data)
 		return orderJSON
 	}
 
@@ -51,6 +51,7 @@ func handleResponse(data string) []byte {
 	order, err = db.Instance.GetOrder(id)
 	if err != nil {
 		log.Printf("Error getting order: %v", err)
+		log.Printf("data: %v", data)
 		return []byte("Order not found")
 	}
 	db.Cache.Set(data, order)

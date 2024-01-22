@@ -25,9 +25,13 @@
             })
             .then(response => response.text())
             .then(data => {
-                var jsonData = JSON.parse(JSON.parse(data));
-                console.log(jsonData);
-                document.getElementById('result').innerHTML = createTable(jsonData);
+                try {
+                    var jsonData = JSON.parse(JSON.parse(JSON.parse(data)));
+                    document.getElementById('result').innerHTML = createTable(jsonData);
+                }
+                catch (e) {
+                    document.getElementById('result').innerHTML = JSON.parse(data);
+                }
             });
         }
 

@@ -9,6 +9,6 @@ build:
 config:
 	docker compose up -d
 
-run: 
+run: build
 	./$(BINARY_NAME)-linux
 

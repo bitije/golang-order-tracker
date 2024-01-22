@@ -3,6 +3,7 @@ package db
 import (
 	"database/sql"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"log"
 
@@ -206,6 +207,7 @@ func (db *DB) GetOrder(id uuid.UUID) (*Order, error) {
 	var delivery Delivery
 	var payment Payment
 	var items []Item
+	var flag bool
 
 	for rows.Next() {
 		var item Item
@@ -233,6 +235,10 @@ func (db *DB) GetOrder(id uuid.UUID) (*Order, error) {
 		order.Delivery = delivery
 		order.Payment = payment
 		items = append(items, item)
+		flag = true
+	}
+	if !flag {
+		return nil, errors.New("order not found")
 	}
 
 	if err := rows.Err(); err != nil {
